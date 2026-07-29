@@ -40,7 +40,7 @@ a { color: inherit; text-decoration: none; }
   height: 42px;
   flex: 0 0 auto;
   border: 1px solid rgba(255, 210, 28, .32);
-  background: url("/rats-logo.png") center 45% / 166% auto no-repeat;
+  background: url("/rats-logo-transparent-v2.png") center / 112% auto no-repeat;
   box-shadow: 0 0 22px rgba(61, 139, 255, .12);
 }
 nav { display: flex; gap: 34px; }
@@ -111,7 +111,7 @@ h1 em, h2 em { font-style: normal; color: var(--yellow); }
   background: rgba(5, 17, 34, .18);
   box-shadow: 0 30px 90px rgba(0, 0, 0, .4);
 }
-.hero-badge img { width: 145%; max-width: none; height: 100%; object-fit: cover; object-position: center; mix-blend-mode: screen; }
+.hero-badge img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
 .scroll-note { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); font-size: 8px; letter-spacing: .24em; color: #72839a; display: flex; align-items: center; gap: 14px; }
 .scroll-note span { width: 45px; height: 1px; background: #72839a; }
 

@@ -86,7 +86,7 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-badge">
-          <img src="/rats-logo.png" alt="RATS Esports rat chef logo" />
+          <img src="/rats-logo-transparent-v2.png" alt="RATS Esports rat chef logo" />
         </div>
         <div className="scroll-note" aria-hidden="true">SCROLL TO EXPLORE <span /></div>
       </section>
