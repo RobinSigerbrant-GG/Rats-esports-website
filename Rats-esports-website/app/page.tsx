@@ -59,7 +59,7 @@ export default function Home() {
     <main>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="RATS Esports home">
-          <span className="brand-mark">R</span>
+          <span className="brand-logo" aria-hidden="true" />
           <span>RATS <b>ESPORTS</b></span>
         </a>
         <nav aria-label="Main navigation">
@@ -85,9 +85,8 @@ export default function Home() {
             <a className="text-link" href="#about">Our story <span>↗</span></a>
           </div>
         </div>
-        <div className="hero-badge" aria-hidden="true">
-          <span>R</span>
-          <small>EST. IN SWEDEN</small>
+        <div className="hero-badge">
+          <img src="/rats-logo.png" alt="RATS Esports rat chef logo" />
         </div>
         <div className="scroll-note" aria-hidden="true">SCROLL TO EXPLORE <span /></div>
       </section>
@@ -175,7 +174,7 @@ export default function Home() {
       </section>
 
       <footer>
-        <a className="brand" href="#top"><span className="brand-mark">R</span><span>RATS <b>ESPORTS</b></span></a>
+        <a className="brand" href="#top"><span className="brand-logo" aria-hidden="true" /><span>RATS <b>ESPORTS</b></span></a>
         <p>Swedish grassroots esports.<br />Built together.</p>
         <p className="copyright">© {new Date().getFullYear()} RATS Esports</p>
       </footer>
