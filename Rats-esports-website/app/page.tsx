@@ -1,8 +1,50 @@
 const teams = [
-  { name: "RATS Esports", tag: "RATS", level: "Main roster", number: "01" },
-  { name: "RATS Pungh", tag: "PNG", level: "Competitive roster", number: "02" },
-  { name: "RATS Iron", tag: "IRON", level: "Competitive roster", number: "03" },
-  { name: "RATS MCD", tag: "MCD", level: "Competitive roster", number: "04" },
+  {
+    name: "RATS Esports",
+    tag: "RATS",
+    level: "Main roster",
+    number: "01",
+    roster: null,
+  },
+  {
+    name: "RATS Pungh",
+    tag: "PNG",
+    level: "Competitive roster",
+    number: "02",
+    roster: [
+      ["Top", "RAT Swedishking#RATS"],
+      ["Jungle", "RAT Vmuuz#nr1"],
+      ["Mid", "Mufasa#Yeah"],
+      ["Bot", "DBR Derph#DBR"],
+      ["Support", "TRYOUTS"],
+    ],
+  },
+  {
+    name: "RATS Iron",
+    tag: "IRON",
+    level: "Competitive roster",
+    number: "03",
+    roster: [
+      ["Top", "Rat gryb#1337"],
+      ["Jungle", "RAT Krankee#1337"],
+      ["Mid", "RAT Teammate#2626"],
+      ["Bot", "RAT Snuskmackan#IRON"],
+      ["Support", "RAT WeeYeah#IRON"],
+    ],
+  },
+  {
+    name: "RATS MCD",
+    tag: "MCD",
+    level: "Competitive roster",
+    number: "04",
+    roster: [
+      ["Top", "RAT Veino#RATS"],
+      ["Jungle", "Nikita Rósa#Upir"],
+      ["Mid", "Blex#haha"],
+      ["Bot", "Yuzu#Junos"],
+      ["Support", "RAT M34N#RATS"],
+    ],
+  },
 ];
 
 const navItems = [
@@ -25,7 +67,7 @@ export default function Home() {
             <a key={item.href} href={item.href}>{item.label}</a>
           ))}
         </nav>
-        <a className="nav-cta" href="#join">Join the community <span>↗</span></a>
+        <a className="nav-cta" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">Join the community <span>↗</span></a>
       </header>
 
       <section className="hero" id="top">
@@ -90,6 +132,18 @@ export default function Home() {
               <div>
                 <p>{team.level}</p>
                 <h3>{team.name}</h3>
+                {team.roster ? (
+                  <ul className="roster-list" aria-label={`${team.name} roster`}>
+                    {team.roster.map(([role, player]) => (
+                      <li key={role}>
+                        <span>{role}</span>
+                        <strong>{player}</strong>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="roster-tba">Roster to be announced</p>
+                )}
               </div>
               <span className="card-arrow" aria-hidden="true">↗</span>
             </article>
@@ -105,7 +159,7 @@ export default function Home() {
           Player, coach, manager, creator, or supporter—if you want to help
           build Swedish grassroots esports, we want to hear from you.
         </p>
-        <a className="button button-dark" href="#contact">Start a conversation <span>↗</span></a>
+        <a className="button button-dark" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">Join our Discord <span>↗</span></a>
       </section>
 
       <section className="section contact" id="contact">
@@ -114,14 +168,8 @@ export default function Home() {
           <h2>LET&apos;S BUILD<br /><em>SOMETHING.</em></h2>
         </div>
         <div className="contact-links">
-          <a href="#" aria-label="Discord link placeholder">
+          <a href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">
             <span><small>Community</small>Discord</span><b>↗</b>
-          </a>
-          <a href="mailto:hello@ratsesports.se">
-            <span><small>Email</small>hello@ratsesports.se</span><b>↗</b>
-          </a>
-          <a href="#" aria-label="Social media link placeholder">
-            <span><small>Follow us</small>Social media</span><b>↗</b>
           </a>
         </div>
       </section>
