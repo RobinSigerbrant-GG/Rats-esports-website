@@ -207,7 +207,7 @@ export default function Home() {
       <section className="section contact" id="contact">
         <div>
           <p className="section-label">04 — KONTAKT</p>
-          <h2>LÅT OSS BYGGA<br /><em>NÅGOT TILLSAMMANS.</em></h2>
+          <h2>LÅT OSS BYGGA<br />NÅGOT<br /><em>TILLSAMMANS.</em></h2>
         </div>
         <div className="contact-links">
           <a href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">
