@@ -4,6 +4,8 @@ const teams = [
     tag: "RATS",
     level: "Main roster",
     number: "01",
+    logo: "/rats-logo-transparent-v2.png",
+    accent: "yellow",
     roster: null,
   },
   {
@@ -11,6 +13,8 @@ const teams = [
     tag: "PNG",
     level: "Competitive roster",
     number: "02",
+    logo: "/team-pungh.png",
+    accent: "pink",
     roster: [
       ["Top", "RAT Swedishking#RATS"],
       ["Jungle", "RAT Vmuuz#nr1"],
@@ -24,6 +28,8 @@ const teams = [
     tag: "IRON",
     level: "Competitive roster",
     number: "03",
+    logo: "/team-iron.png",
+    accent: "bronze",
     roster: [
       ["Top", "Rat gryb#1337"],
       ["Jungle", "RAT Krankee#1337"],
@@ -37,6 +43,8 @@ const teams = [
     tag: "MCD",
     level: "Competitive roster",
     number: "04",
+    logo: "/team-mcd.png",
+    accent: "green",
     roster: [
       ["Top", "RAT Veino#RATS"],
       ["Jungle", "Nikita Rósa#Upir"],
@@ -125,12 +133,24 @@ export default function Home() {
         </div>
         <div className="team-grid">
           {teams.map((team) => (
-            <article className="team-card" key={team.name}>
+            <article
+              className={`team-card team-card-${team.accent}`}
+              key={team.name}
+              tabIndex={0}
+              aria-label={`${team.name}. Focus or hover to view roster.`}
+            >
               <span className="card-number">{team.number}</span>
-              <div className="team-monogram" aria-hidden="true">{team.tag[0]}</div>
-              <div>
+              <span className="card-hint">View roster <b>↗</b></span>
+              <img className="team-logo" src={team.logo} alt={`${team.name} logo`} />
+              <div className="team-summary">
                 <p>{team.level}</p>
                 <h3>{team.name}</h3>
+              </div>
+              <div className="roster-panel">
+                <div className="roster-heading">
+                  <span>{team.tag}</span>
+                  <strong>Active roster</strong>
+                </div>
                 {team.roster ? (
                   <ul className="roster-list" aria-label={`${team.name} roster`}>
                     {team.roster.map(([role, player]) => (
@@ -144,7 +164,6 @@ export default function Home() {
                   <p className="roster-tba">Roster to be announced</p>
                 )}
               </div>
-              <span className="card-arrow" aria-hidden="true">↗</span>
             </article>
           ))}
         </div>
