@@ -2,7 +2,7 @@ const teams = [
   {
     name: "RATS ESPORTS",
     tag: "RATS",
-    level: "Main roster",
+    level: "Huvudlag",
     number: "01",
     logo: "/rats-logo-transparent-v2.png",
     accent: "yellow",
@@ -11,7 +11,7 @@ const teams = [
   {
     name: "RATS PUNGH",
     tag: "PNG",
-    level: "Competitive roster",
+    level: "Tävlingslag",
     number: "02",
     logo: "/team-pungh.png",
     accent: "pink",
@@ -26,7 +26,7 @@ const teams = [
   {
     name: "RATS IRON",
     tag: "IRON",
-    level: "Competitive roster",
+    level: "Tävlingslag",
     number: "03",
     logo: "/team-iron.png",
     accent: "bronze",
@@ -41,7 +41,7 @@ const teams = [
   {
     name: "RATS MCD",
     tag: "MCD",
-    level: "Competitive roster",
+    level: "Tävlingslag",
     number: "04",
     logo: "/team-mcd.png",
     accent: "green",
@@ -56,69 +56,91 @@ const teams = [
 ];
 
 const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Teams", href: "#teams" },
-  { label: "Join", href: "#join" },
-  { label: "Contact", href: "#contact" },
+  { label: "Om oss", href: "#about" },
+  { label: "Lagen", href: "#teams" },
+  { label: "Gå med", href: "#join" },
+  { label: "Kontakt", href: "#contact" },
 ];
 
 export default function Home() {
   return (
     <main>
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="RATS Esports home">
+        <a className="brand" href="#top" aria-label="RATS Esports startsida">
           <span className="brand-logo" aria-hidden="true" />
           <span>RATS <b>ESPORTS</b></span>
         </a>
-        <nav aria-label="Main navigation">
+        <nav aria-label="Huvudnavigation">
           {navItems.map((item) => (
             <a key={item.href} href={item.href}>{item.label}</a>
           ))}
         </nav>
-        <a className="nav-cta" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">Join the community <span>↗</span></a>
+        <a className="nav-cta" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">
+          Gå med i gemenskapen <span>↗</span>
+        </a>
       </header>
 
       <section className="hero" id="top">
         <div className="hero-grid" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
         <div className="hero-content">
-          <p className="eyebrow"><span /> Swedish grassroots esports</p>
-          <h1>WE PLAY<br /><em>TOGETHER.</em></h1>
+          <p className="eyebrow"><span /> SVENSK ESPORTFÖRENING INOM LEAGUE OF LEGENDS</p>
+          <h1>RATS<br /><em>ON TOP.</em></h1>
           <p className="hero-copy">
-            Competition with purpose. A home for ambitious players, dedicated
-            staff, and everyone who believes esports is better as a community.
+            Vi spelar för att ha kul. Tränar för att utvecklas. Tävlar för att vinna.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#teams">Meet the teams <span>↓</span></a>
-            <a className="text-link" href="#about">Our story <span>↗</span></a>
+            <a className="button button-primary" href="#teams">Möt lagen <span>↓</span></a>
+            <a className="text-link" href="#about">Vår historia <span>↗</span></a>
           </div>
         </div>
         <div className="hero-badge">
-          <img src="/rats-logo-transparent-v2.png" alt="RATS Esports rat chef logo" />
+          <img src="/rats-logo-transparent-v2.png" alt="RATS Esports logotyp med råtta och kockmössa" />
         </div>
-        <div className="scroll-note" aria-hidden="true">SCROLL TO EXPLORE <span /></div>
+        <div className="scroll-note" aria-hidden="true">UTFORSKA MER <span /></div>
+      </section>
+
+      <section className="intro-statement" aria-label="Vår gemenskap">
+        <p className="section-label">DET HÄR ÄR RATS</p>
+        <p>
+          RATS samlar ambitiösa spelare och engagerade människor med en gemensam
+          kärlek till League of Legends. Här får viljan att bli bättre gå hand i
+          hand med glädjen i att spela tillsammans. Vi bygger en miljö där vi
+          utmanar varandra, firar framstegen och alltid strävar efter nästa nivå
+          som spelare, lag och förening.
+        </p>
       </section>
 
       <section className="section about" id="about">
         <div>
-          <p className="section-label">01 — About us</p>
-          <h2>MORE THAN<br />A <em>TEAM.</em></h2>
+          <p className="section-label">01 — OM OSS</p>
+          <h2>ETT ANDRA HEM<br />FÖR <em>AMBITIÖSA.</em></h2>
         </div>
         <div className="about-copy">
-          <p className="lead">
-            RATS Esports is a Swedish grassroots association building a
-            structured, welcoming, and competitive home for players who want
-            to grow together.
+          <p className="lead">Ett andra hem för spelare med ambitioner.</p>
+          <p>
+            RATS är en esportförening med rötterna i det svenska föreningslivet.
+            Vi drivs av människor som lägger ner lite mer tid än de egentligen
+            har på League of Legends, helt enkelt för att vi älskar spelet och
+            tror på det vi bygger tillsammans.
           </p>
           <p>
-            We bring teams, coaches, managers, and community members under one
-            banner. Through regular practice, shared knowledge, and a long-term
-            mindset, we’re creating something that lasts beyond a single season.
+            Hos oss ska det finnas utrymme att satsa. Att träna målmedvetet,
+            tävla på riktigt och se hur långt man kan nå. Men RATS handlar om mer
+            än resultat. Vi vill vara platsen där du känner dina lagkamrater, där
+            feedback hjälper dig framåt och där både vinster och motgångar blir
+            en del av utvecklingen.
+          </p>
+          <p>
+            Vår ambition är tydlig: att hela tiden bli bättre utan att tappa det
+            som gör resan värd att göra. Därför bygger vi en positiv, konstruktiv
+            och levande gemenskap där våra medlemmar kan utvecklas, prestera och
+            framför allt trivas.
           </p>
           <div className="values">
-            <div><strong>04</strong><span>Competitive teams</span></div>
-            <div><strong>01</strong><span>Shared community</span></div>
-            <div><strong>∞</strong><span>Room to grow</span></div>
+            <div><strong>04</strong><span>Tävlingslag</span></div>
+            <div><strong>01</strong><span>Gemensam förening</span></div>
+            <div><strong>∞</strong><span>Utrymme att växa</span></div>
           </div>
         </div>
       </section>
@@ -126,10 +148,10 @@ export default function Home() {
       <section className="section teams" id="teams">
         <div className="section-heading">
           <div>
-            <p className="section-label">02 — Our teams</p>
-            <h2>FOUR ROSTERS.<br /><em>ONE BANNER.</em></h2>
+            <p className="section-label">02 — VÅRA LAG</p>
+            <h2>FYRA LAG.<br /><em>EN FÖRENING.</em></h2>
           </div>
-          <p>Different journeys. The same standards, support, and ambition.</p>
+          <p>Olika resor. Samma gemenskap, struktur och ambition.</p>
         </div>
         <div className="team-grid">
           {teams.map((team) => (
@@ -137,11 +159,11 @@ export default function Home() {
               className={`team-card team-card-${team.accent}`}
               key={team.name}
               tabIndex={0}
-              aria-label={`${team.name}. Focus or hover to view roster.`}
+              aria-label={`${team.name}. Fokusera eller håll muspekaren över kortet för att visa laguppställningen.`}
             >
               <span className="card-number">{team.number}</span>
-              <span className="card-hint">View roster <b>↗</b></span>
-              <img className="team-logo" src={team.logo} alt={`${team.name} logo`} />
+              <span className="card-hint">Visa laguppställning <b>↗</b></span>
+              <img className="team-logo" src={team.logo} alt={`${team.name} logotyp`} />
               <div className="team-summary">
                 <p>{team.level}</p>
                 <h3>{team.name}</h3>
@@ -149,10 +171,10 @@ export default function Home() {
               <div className="roster-panel">
                 <div className="roster-heading">
                   <span>{team.tag}</span>
-                  <strong>Active roster</strong>
+                  <strong>Aktuell laguppställning</strong>
                 </div>
                 {team.roster ? (
-                  <ul className="roster-list" aria-label={`${team.name} roster`}>
+                  <ul className="roster-list" aria-label={`${team.name} laguppställning`}>
                     {team.roster.map(([role, player]) => (
                       <li key={role}>
                         <span>{role}</span>
@@ -161,7 +183,7 @@ export default function Home() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="roster-tba">Roster to be announced</p>
+                  <p className="roster-tba">Laguppställning meddelas snart</p>
                 )}
               </div>
             </article>
@@ -171,30 +193,35 @@ export default function Home() {
 
       <section className="join" id="join">
         <div className="join-pattern" aria-hidden="true">RATS</div>
-        <p className="section-label">03 — Join the community</p>
-        <h2>FIND YOUR PLACE<br />IN <em>RATS.</em></h2>
+        <p className="section-label">03 — BLI EN DEL AV GEMENSKAPEN</p>
+        <h2>HITTA DIN PLATS<br />I <em>RATS.</em></h2>
         <p>
-          Player, coach, manager, creator, or supporter—if you want to help
-          build Swedish grassroots esports, we want to hear from you.
+          Spelare, coach, manager, kreatör eller supporter — vill du vara med och
+          bygga svensk League of Legends-esport vill vi gärna höra från dig.
         </p>
-        <a className="button button-dark" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">Join our Discord <span>↗</span></a>
+        <a className="button button-dark" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">
+          Gå med i vår Discord <span>↗</span>
+        </a>
       </section>
 
       <section className="section contact" id="contact">
         <div>
-          <p className="section-label">04 — Contact</p>
-          <h2>LET&apos;S BUILD<br /><em>SOMETHING.</em></h2>
+          <p className="section-label">04 — KONTAKT</p>
+          <h2>LÅT OSS BYGGA<br /><em>NÅGOT TILLSAMMANS.</em></h2>
         </div>
         <div className="contact-links">
           <a href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">
-            <span><small>Community</small>Discord</span><b>↗</b>
+            <span><small>Gemenskap</small>Discord</span><b>↗</b>
           </a>
         </div>
       </section>
 
       <footer>
-        <a className="brand" href="#top"><span className="brand-logo" aria-hidden="true" /><span>RATS <b>ESPORTS</b></span></a>
-        <p>Swedish grassroots esports.<br />Built together.</p>
+        <a className="brand" href="#top">
+          <span className="brand-logo" aria-hidden="true" />
+          <span>RATS <b>ESPORTS</b></span>
+        </a>
+        <p>Svensk esportförening inom League of Legends.<br />Byggd tillsammans.</p>
         <p className="copyright">© {new Date().getFullYear()} RATS Esports</p>
       </footer>
     </main>
