@@ -1,3 +1,31 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+type PlayerProfile = {
+  handle: string;
+  name: string;
+  team: string;
+  role: string;
+  age: number;
+  champions: string;
+  image: string;
+  bio: string;
+};
+
+const playerProfiles: Record<string, PlayerProfile> = {
+  "RAT Veino#RATS": {
+    handle: "RAT Veino#RATS",
+    name: "Jamie",
+    team: "RATS MCD",
+    role: "Top",
+    age: 20,
+    champions: "Zeri, Sion och Joel",
+    image: "/jamie-veino.jpg",
+    bio: "Adopted by RAT Daddy",
+  },
+};
+
 const teams = [
   {
     name: "RATS ESPORTS",
@@ -63,6 +91,22 @@ const navItems = [
 ];
 
 export default function Home() {
+  const [activeProfile, setActiveProfile] = useState<PlayerProfile | null>(null);
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveProfile(null);
+    };
+
+    document.addEventListener("keydown", closeOnEscape);
+    document.body.style.overflow = activeProfile ? "hidden" : "";
+
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.body.style.overflow = "";
+    };
+  }, [activeProfile]);
+
   return (
     <main>
       <header className="site-header">
@@ -178,7 +222,18 @@ export default function Home() {
                     {team.roster.map(([role, player]) => (
                       <li key={role}>
                         <span>{role}</span>
-                        <strong>{player}</strong>
+                        {playerProfiles[player] ? (
+                          <button
+                            className="player-link"
+                            type="button"
+                            onClick={() => setActiveProfile(playerProfiles[player])}
+                            aria-label={`Öppna spelarprofil för ${player}`}
+                          >
+                            {player}<span aria-hidden="true">+</span>
+                          </button>
+                        ) : (
+                          <strong>{player}</strong>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -224,6 +279,48 @@ export default function Home() {
         <p>Svensk esportförening inom League of Legends.<br />Byggd tillsammans.</p>
         <p className="copyright">© {new Date().getFullYear()} RATS Esports</p>
       </footer>
+
+      {activeProfile && (
+        <div
+          className="profile-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="profile-title"
+          onClick={(event) => {
+            if (event.currentTarget === event.target) setActiveProfile(null);
+          }}
+        >
+          <article className="profile-card">
+            <button
+              className="profile-close"
+              type="button"
+              onClick={() => setActiveProfile(null)}
+              aria-label="Stäng spelarprofil"
+            >
+              ×
+            </button>
+            <div className="profile-photo">
+              <img src={activeProfile.image} alt={`Porträtt av ${activeProfile.name}`} />
+              <span>{activeProfile.team}</span>
+            </div>
+            <div className="profile-content">
+              <p className="section-label">SPELARPROFIL</p>
+              <p className="profile-role">{activeProfile.role}</p>
+              <h2 id="profile-title">{activeProfile.handle}</h2>
+              <p className="profile-name">{activeProfile.name}</p>
+              <p className="profile-bio">{activeProfile.bio}</p>
+              <dl className="profile-facts">
+                <div><dt>Lag</dt><dd>{activeProfile.team}</dd></div>
+                <div><dt>Roll</dt><dd>{activeProfile.role}</dd></div>
+                <div><dt>Ålder</dt><dd>{activeProfile.age}</dd></div>
+                <div className="profile-champions">
+                  <dt>Favoritmästare</dt><dd>{activeProfile.champions}</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        </div>
+      )}
     </main>
   );
 }
