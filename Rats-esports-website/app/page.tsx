@@ -1,6 +1,6 @@
 const teams = [
   {
-    name: "RATS Esports",
+    name: "RATS ESPORTS",
     tag: "RATS",
     level: "Main roster",
     number: "01",
@@ -9,7 +9,7 @@ const teams = [
     roster: null,
   },
   {
-    name: "RATS Pungh",
+    name: "RATS PUNGH",
     tag: "PNG",
     level: "Competitive roster",
     number: "02",
@@ -24,7 +24,7 @@ const teams = [
     ],
   },
   {
-    name: "RATS Iron",
+    name: "RATS IRON",
     tag: "IRON",
     level: "Competitive roster",
     number: "03",
