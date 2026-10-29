@@ -531,3 +531,7 @@ footer > p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; 
   .sq-panel { padding: 24px 18px; }
   .sq-admin-list li { flex-wrap: wrap; }
 }
+
+/* Account access */
+.sq-account { display: inline-block; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sq-header > div { flex-wrap: wrap; align-items: center; }

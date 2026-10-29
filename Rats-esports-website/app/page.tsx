@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AccountMenu from "./components/account-menu";
 
 type PlayerProfile = {
   handle: string;
@@ -119,6 +120,7 @@ export default function Home() {
           {navItems.map((item) => (
             <a key={item.href} href={item.href}>{item.label}</a>
           ))}
+          <AccountMenu />
         </nav>
         <a className="nav-cta" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">
           Gå med i gemenskapen <span>↗</span>
@@ -137,7 +139,7 @@ export default function Home() {
           <div className="hero-actions">
             <a className="button button-primary" href="#teams">Möt lagen <span>↓</span></a>
             <a className="text-link" href="#about">Vår historia <span>↗</span></a>
-            <a className="text-link" href="/soloq">SoloQ tracker <span>↗</span></a>
+            <a className="text-link" href="/soloq">SoloQ tracker <span>↗</span></a><a className="text-link" href="/login">Logga in med Discord <span>↗</span></a>
           </div>
         </div>
         <div className="hero-badge">
