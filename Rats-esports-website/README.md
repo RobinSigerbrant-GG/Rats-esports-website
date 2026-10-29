@@ -67,3 +67,16 @@ branch will be deployed automatically.
 - React
 - TypeScript
 - CSS
+
+## SoloQ tracker
+
+- `/soloq`: public EUW Ranked Solo/Duo leaderboard, search, team/role filters and OP.GG links.
+- `/soloq/admin`: password login using an existing Supabase Auth account. Admins can add and remove players. Membership persists in Supabase; browser storage is not used.
+- Required server environment variables: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`.
+- Set `RIOT_API_KEY` as an encrypted server environment variable in Vercel to enable ranked statistics, then redeploy. Never use a `NEXT_PUBLIC_` key. The UI clearly labels missing statistics; no mock ranks are displayed.
+- Rank data is cached for 15 minutes and refreshed on page load, manual refresh, and every 15 minutes while open. Account lookups are cached for one day. This version does not store LP history or match-by-match results. Rate limits or unavailable Riot accounts are shown as missing data rather than as unranked accounts.
+- `db/soloq.sql` records the initial database migration (already applied to the connected project). The database exposes public read access for the roster and permits inserts/deletes only for users explicitly listed in `soloq_admins`. Admin membership is managed outside the public application.
+- To authorize an existing account, a database owner inserts its `auth.users.id` into `soloq_admins`. No admin role is derived from editable user metadata. The application never uses a service-role key.
+- Login sessions use an HttpOnly, Secure (production), SameSite=Strict cookie and expire within an hour. Sign in again when prompted. Mutations validate the request origin as well as the user's current admin membership.
+- Register the public tracker with Riot and use a suitable production key under Riot's developer policies: https://developer.riotgames.com/docs/lol
+- Tests: `node --test tests/soloq.test.mjs` (Node 24), `pnpm exec tsc --noEmit`, `pnpm build`.

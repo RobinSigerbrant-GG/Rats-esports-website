@@ -86,6 +86,7 @@ const teams = [
 const navItems = [
   { label: "Om oss", href: "#about" },
   { label: "Lagen", href: "#teams" },
+  { label: "SoloQ", href: "/soloq" },
   { label: "Gå med", href: "#join" },
   { label: "Kontakt", href: "#contact" },
 ];
@@ -136,6 +137,7 @@ export default function Home() {
           <div className="hero-actions">
             <a className="button button-primary" href="#teams">Möt lagen <span>↓</span></a>
             <a className="text-link" href="#about">Vår historia <span>↗</span></a>
+            <a className="text-link" href="/soloq">SoloQ tracker <span>↗</span></a>
           </div>
         </div>
         <div className="hero-badge">
