@@ -2,7 +2,7 @@ export const teams = ['RATS ESPORTS', 'RATS PUNGH', 'RATS IRON', 'RATS MCD', 'Me
 export const roles = ['Top', 'Jungle', 'Mid', 'Bot', 'Support', 'Fill'] as const;
 export type Player = { id: string; game_name: string; tag_line: string; team: string; role: string };
 export type Rank = { tier: string; rank: string; leaguePoints: number; wins: number; losses: number };
-export type Standing = Player & { stats: Rank | null; status: 'ranked' | 'unranked' | 'unavailable'; updatedAt: string | null };
+export type Standing = Player & { stats: Rank | null; status: 'ranked' | 'unranked' | 'unavailable'; updatedAt: string | null; sourceUpdatedAt?: string | null };
 export const tiers = ['IRON', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'EMERALD', 'DIAMOND', 'MASTER', 'GRANDMASTER', 'CHALLENGER'];
 export function rankScore(stats: Rank | null) {
   if (!stats) return -1;
