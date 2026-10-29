@@ -42,6 +42,5 @@ export default function Soloq() {
     {loading && players.length === 0 && <p className="sq-empty" role="status">Hämtar föreningens spelare…</p>}
     {!loading && !error && visible.length === 0 && <div className="sq-empty"><h3>{players.length ? 'Ingen spelare matchar filtren.' : 'Klättringen börjar här.'}</h3><p>{players.length ? 'Prova ett annat namn eller visa alla lag och roller.' : 'Lägg till föreningens medlemmar i adminpanelen.'}</p>{players.length > 0 && <button className="sq-button" onClick={() => {setSearch('');setTeam('Alla');setRole('Alla');}}>Rensa filter</button>}</div>}
     <p className="sq-muted sq-board-note">{visible.length} av {players.length} spelare · Rank och LP avgör placeringen. Orankade spelare och spelare utan hämtad statistik saknar placering.</p></section>
-    <section className="sq-join"><div><p className="section-label">SAKNAS DU PÅ LISTAN?</p><h2>FLER RATS.<br /><em>MER KLÄTTRING.</em></h2><p>Be en administratör lägga till ditt Riot ID så att du också kommer med.</p></div><a className="sq-button" href="https://discord.gg/pWmNDCJgj7" target="_blank" rel="noreferrer">Hitta oss på Discord ↗</a></section>
   </>;
 }
