@@ -1,4 +1,4 @@
-export const teams = ['RATS ESPORTS', 'RATS PUNGH', 'RATS IRON', 'RATS MCD', 'Medlem'] as const;
+export const teams = ['RATS ESPORTS', 'RATS PUNGH', 'RATS IRON', 'RATS MCD', 'Asiatkompisarna', 'Medlem'] as const;
 export const roles = ['Top', 'Jungle', 'Mid', 'Bot', 'Support', 'Fill'] as const;
 export type Player = { id: string; game_name: string; tag_line: string; team: string; role: string };
 export type Rank = { tier: string; rank: string; leaguePoints: number; wins: number; losses: number };
