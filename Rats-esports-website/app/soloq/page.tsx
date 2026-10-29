@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { opgg, rankScore, roles, teams, winrate, type Standing } from '../../lib/soloq';
 
@@ -30,7 +31,7 @@ export default function Soloq() {
     return rankScore(b.stats) - rankScore(a.stats) || a.game_name.localeCompare(b.game_name, 'sv');
   });
   return <>
-    <section className="sq-hero"><div><p className="section-label">RATS / LEAGUE OF LEGENDS / EUW</p><h1>THE SOLOQ<br /><em>RAT RACE.</em></h1><p>Varje match räknas. Följ medlemmarnas klättring och se vem som tar nästa steg.</p></div><div className="sq-hero-stamp"><span>RANKED SOLO/DUO</span><strong>EUW</strong><span>EN FÖRENING. SAMMA LADDER.</span></div></section>
+    <section className="sq-hero"><div><p className="section-label">RATS / LEAGUE OF LEGENDS / EUW</p><h1>THE SOLOQ<br /><em>RAT RACE.</em></h1><p>Varje match räknas. Följ medlemmarnas klättring och se vem som tar nästa steg.</p></div><div className="sq-hero-stamp"><span>RANKED SOLO/DUO</span><Image className="sq-stamp-logo" src="/rats-logo-transparent-v2.png" alt="RATS Esports logotyp" width={220} height={220} priority /><span>EN FÖRENING. SAMMA LADDER.</span></div></section>
     <section className="sq-summary" aria-label="Föreningens statistik"><div><span>Spelare i föreningen</span><strong>{loading && !players.length ? '—' : players.length.toString().padStart(2, '0')}</strong></div><div><span>Rankade spelare</span><strong>{ranked.length || '—'}</strong></div><div><span>Spelade matcher</span><strong>{games || '—'}</strong></div><div><span>Gemensam vinstprocent</span><strong>{games ? `${Math.round(wins / games * 100)}%` : '—'}</strong></div></section>
     <section className="sq-board" aria-labelledby="leaderboard-title"><div className="sq-board-heading"><div><p className="section-label">FÖRENINGENS KLÄTTRING</p><h2 id="leaderboard-title">SOLOQ <em>LEADERBOARD</em></h2></div><button className="sq-button sq-secondary" onClick={() => { setLoading(true); setError(''); void load(); }} disabled={loading}>{loading ? 'Hämtar…' : '↻ Uppdatera'}</button></div>
     <p className="sq-muted">Solo/Duo · kontrolleras var 15:e minut när sidan är öppen.</p>
