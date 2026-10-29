@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeMatches, analyze, awards, historyDelta, progressPoints, normalizeHistory } from '../lib/soloq-analysis.ts';
+import { normalizeMatches, awardMatches, analyze, awards, historyDelta, progressPoints, normalizeHistory } from '../lib/soloq-analysis.ts';
 import { parseOpgg } from '../lib/opgg-parser.ts';
 import { parseLeaderboardSnapshot } from '../lib/leaderboard-cache.ts';
 const match=(i,overrides={})=>({id:String(i),playedAt:new Date(Date.UTC(2026,9,29,12,0,-i)).toISOString(),queueType:'SOLORANKED',result:'WIN',champion:'Lux',position:'MID',kills:5,deaths:2,assists:7,cs:120,opScore:8,opScoreRank:1,...overrides});
@@ -21,10 +21,10 @@ test('remakes are excluded; KDA, streak, score denominator and champion shares r
  assert.equal(analyze(normalizeMatches([match(0)])).streakCapped,true);
  assert.equal(analyze([]).n,0);
 });
-test('only requested five awards; minimum five completed games; every tie receives the award',()=>{
- const a=player('a',Array.from({length:5},(_,i)=>match(i)));
- const b=player('b',Array.from({length:5},(_,i)=>match(i)));
- const short=player('short',Array.from({length:4},(_,i)=>match(i,{deaths:0})));
+test('only requested five awards; minimum ten completed games; every tie receives the award',()=>{
+ const a=player('a',Array.from({length:10},(_,i)=>match(i)));
+ const b=player('b',Array.from({length:10},(_,i)=>match(i)));
+ const short=player('short',Array.from({length:9},(_,i)=>match(i,{deaths:0})));
  const result=awards([a,b,short]);assert.equal(result.length,5);
  for(const award of result)assert.deepEqual(award.winners.map(w=>w.player.id),['a','b']);
  assert.equal(awards([short]).every(a=>a.winners.length===0),true);
@@ -43,4 +43,27 @@ test('enriched cache keeps public match and history fields, excludes unexpected 
  assert.equal(cache.players[0].recentGames.length,1);assert.deepEqual(cache.players[0].history.first,point);assert.equal(cache.players[0].email,undefined);
  assert.equal(cache.players[0].recentGames[0].queueType,undefined);
  assert.equal(normalizeHistory({first:{...point,lp:-1},points:[point,{...point,observed_at:'bad'}]}).points.length,1);
+});
+
+test('award samples merge syncs, deduplicate matches, exclude remakes and retain newest twenty',()=>{
+ const old=normalizeMatches(Array.from({length:10},(_,i)=>match(i+10)));
+ const recent=normalizeMatches(Array.from({length:10},(_,i)=>match(i+5)));
+ const latest=normalizeMatches(Array.from({length:10},(_,i)=>match(i)));
+ const result=awardMatches(latest,recent,old,[match(21),match(-1,{result:'REMAKE'})]);
+ assert.equal(result.length,20);assert.deepEqual(result.map(m=>m.id),Array.from({length:20},(_,i)=>String(i)));
+ const withHistory={...player('history',latest.slice(0,4)),awardGames:result};
+ assert.equal(awards([withHistory])[0].winners[0].metrics.n,20);
+});
+test('ten is eligible, nine is excluded, and repeated syncs cannot inflate eligibility',()=>{
+ const nine=player('nine',Array.from({length:9},(_,i)=>match(i)));
+ nine.awardGames=awardMatches(nine.recentGames,nine.recentGames);
+ assert.equal(awards([nine])[0].winners.length,0);
+ const ten=player('ten',Array.from({length:10},(_,i)=>match(i)));
+ assert.equal(awards([nine,ten])[0].winners[0].player.id,'ten');
+});
+test('browser cache retains all twenty award games while recent form data remains ten',()=>{
+ const p=player('11111111-1111-4111-8111-111111111111',Array.from({length:10},(_,i)=>match(i)));
+ p.awardGames=awardMatches(p.recentGames,normalizeMatches(Array.from({length:10},(_,i)=>match(i+10))));
+ const cached=parseLeaderboardSnapshot(JSON.stringify({version:1,savedAt:p.updatedAt,source:'opgg',players:[p]}));
+ assert.equal(cached.players[0].awardGames.length,20);assert.equal(cached.players[0].recentGames.length,10);
 });

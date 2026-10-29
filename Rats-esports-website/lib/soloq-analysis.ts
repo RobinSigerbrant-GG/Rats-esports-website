@@ -1,10 +1,11 @@
 import { tiers, type RecentMatch, type Standing, type Rank, type RankPoint, type PlayerHistory } from './soloq.ts';
 
-export const minimumAwardGames = 5;
+export const minimumAwardGames = 10;
+export const awardGameLimit = 20;
 const date = (value: unknown): value is string => typeof value === 'string' && Number.isFinite(Date.parse(value));
 const text = (value: unknown): value is string => typeof value === 'string' && value.length > 0 && value.length <= 160;
 const count = (value: unknown): value is number => typeof value === 'number' && Number.isSafeInteger(value) && value >= 0 && value <= 100000;
-export function normalizeMatches(input: unknown): RecentMatch[] {
+export function normalizeMatches(input: unknown, limit = 10): RecentMatch[] {
   if (!Array.isArray(input)) return [];
   const seen = new Set<string>();
   return input.slice(0,100).flatMap(item => {
@@ -15,7 +16,10 @@ export function normalizeMatches(input: unknown): RecentMatch[] {
     if (!text(m.id) || seen.has(m.id) || !date(m.playedAt) || !text(m.champion) || !['WIN','LOSE','REMAKE'].includes(String(m.result)) || ![m.kills,m.deaths,m.assists,m.cs].every(count)) return [];
     seen.add(m.id);
     return [{ id:m.id, playedAt:new Date(m.playedAt).toISOString(), champion:m.champion, position:text(m.position) ? m.position : 'UNKNOWN', result:m.result as RecentMatch['result'], kills:m.kills as number, deaths:m.deaths as number, assists:m.assists as number, cs:m.cs as number, opScore:typeof m.opScore === 'number' && Number.isFinite(m.opScore) && m.opScore >= 0 && m.opScore <= 10 ? m.opScore : null, opScoreRank:count(m.opScoreRank) && m.opScoreRank >= 1 && m.opScoreRank <= 10 ? m.opScoreRank : null }];
-  }).sort((a,b) => Date.parse(b.playedAt)-Date.parse(a.playedAt)).slice(0,10);
+  }).sort((a,b) => Date.parse(b.playedAt)-Date.parse(a.playedAt)).slice(0,limit);
+}
+export function awardMatches(...groups: RecentMatch[][]) {
+  return normalizeMatches(groups.flat(),100).filter(m=>m.result!=='REMAKE').slice(0,awardGameLimit);
 }
 export function analyze(matches: RecentMatch[] = []) {
   const games = matches.filter(m => m.result !== 'REMAKE');
@@ -42,7 +46,7 @@ export const awardDefinitions = [
   {id:'hot',name:'Flaming Hot Rat',description:'Högst vinstprocent i hämtade matcher',metric:'winRate',direction:1,icon:'♨'},
 ] as const;
 export function awards(players: Standing[]) {
-  const eligible=players.flatMap(player=>{const metrics=analyze(player.recentGames);return metrics.n>=minimumAwardGames?[{player,metrics}]:[];});
+  const eligible=players.flatMap(player=>{const metrics=analyze(awardMatches(player.awardGames??player.recentGames??[]));return metrics.n>=minimumAwardGames?[{player,metrics}]:[];});
   return awardDefinitions.map(definition=>{
     const best=eligible.length?Math.max(...eligible.map(x=>x.metrics[definition.metric]*definition.direction)):null;
     return {...definition,winners:best===null?[]:eligible.filter(x=>Math.abs(x.metrics[definition.metric]*definition.direction-best)<1e-9)};

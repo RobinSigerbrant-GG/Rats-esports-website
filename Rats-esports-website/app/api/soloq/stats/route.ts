@@ -3,6 +3,7 @@ import { errorResponse, players } from '../../../../lib/soloq-server';
 import type { Rank, Standing } from '../../../../lib/soloq';
 import { parseOpgg } from '../../../../lib/opgg-parser';
 import { attachHistory } from '../../../../lib/soloq-history-server';
+import { attachAwardMatches } from '../../../../lib/soloq-matches-server';
 
 export const maxDuration = 120;
 type League = Rank & { queueType: string };
@@ -50,7 +51,7 @@ export async function GET() {
         if (i + 2 < roster.length && !blocked) await new Promise(resolve => setTimeout(resolve, 1100));
       }
     }
-    const history = await attachHistory(result, source);
-    return Response.json({ ...history, configured: true, source }, { headers: { 'Cache-Control': 'no-store' } });
+    const [history, awards] = await Promise.all([attachHistory(result, source),attachAwardMatches(result, source)]);
+    return Response.json({ ...history, players:history.players.map(p=>({...p,awardGames:awards.matches.get(p.id)??[]})),matchHistoryRecording:awards.matchHistoryRecording, configured: true, source }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) { return errorResponse(error); }
 }
