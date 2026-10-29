@@ -70,13 +70,13 @@ branch will be deployed automatically.
 
 ## SoloQ tracker
 
-- `/soloq`: public EUW Ranked Solo/Duo leaderboard, search, team/role filters and OP.GG links.
-- `/soloq/admin`: password login using an existing Supabase Auth account. Admins can add and remove players. Membership persists in Supabase; browser storage is not used.
-- Required server environment variables: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`.
-- Set `RIOT_API_KEY` as an encrypted server environment variable in Vercel to switch from OP.GG to official Riot ranked statistics, then redeploy. Never use a `NEXT_PUBLIC_` key. Without a Riot key, the tracker reads the public OP.GG profile ai.json representation, selecting only SOLORANKED. It validates player identity, EUW, schema and numeric values; failed lookups remain unavailable. Source attribution and the OP.GG profile update time are shown separately from fetch time. No refresh action is sent to OP.GG. No mock ranks are displayed.
-- Rank data is cached for 15 minutes and refreshed on page load, manual refresh, and every 15 minutes while open. Account lookups are cached for one day. This version does not store LP history or match-by-match results. Rate limits or unavailable Riot accounts are shown as missing data rather than as unranked accounts.
-- `db/soloq.sql` records the initial database migration (already applied to the connected project). The database exposes public read access for the roster and permits inserts/deletes only for users explicitly listed in `soloq_admins`. Admin membership is managed outside the public application.
-- To authorize an existing account, a database owner inserts its `auth.users.id` into `soloq_admins`. No admin role is derived from editable user metadata. The application never uses a service-role key.
-- Login sessions use an HttpOnly, Secure (production), SameSite=Strict cookie and expire within an hour. Sign in again when prompted. Mutations validate the request origin as well as the user's current admin membership.
-- Register the public tracker with Riot and use a suitable production key under Riot's developer policies: https://developer.riotgames.com/docs/lol
-- Tests: `node --test tests/soloq.test.mjs` (Node 24), `pnpm exec tsc --noEmit`, `pnpm build`.
+- `/soloq`: EUW Solo/Duo rank, seasonal W/L, recent form, streak, average K/D/A, OP Score and weekly LP change. Player details contain champion text, played roles, matches and rank history. No EUW placement or champion images in the table.
+- OP.GG's public profile ai.json supplies at most ten recent games across queues. Only SOLORANKED is accepted; remakes are excluded from averages and awards. Eligibility requires five completed games; tied winners all receive awards. Samples are recent retrieved games, not full-season champion statistics.
+- `/soloq/admin`: Discord login and password fallback. Authorized admins can add, edit and remove members. The home page groups the same live roster by team; generic Medlem entries are not teams.
+- Required server variables: `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`. Optional `RIOT_API_KEY` switches rank lookup to Riot; recent match enrichment currently applies to the OP.GG source.
+- Rank responses are cached for 15 minutes. Refreshes happen on visits, manual refresh and every 15 minutes while open. No profile refresh request is sent to OP.GG; source timestamps may be older than fetch timestamps. Failed lookups remain unavailable.
+- A public snapshot is saved in browser storage and displayed while fetching. It contains no authentication data. Old rank-only snapshots remain compatible.
+- `db/soloq-rank-history.sql` records the applied history schema. Public reads and a narrow writer are exposed. Production server secret `SOLOQ_HISTORY_WRITE_KEY` is scoped to this writer; its SHA-256 hash lives in a private table. Never expose it through NEXT_PUBLIC, logs or source. No service-role key is used. Rotate the private hash and production secret together, then redeploy.
+- History is collected on sync, at most one latest observation per player/account/source/15-minute bucket. Account and source changes separate histories. First and 7–8-day-old baselines support comparisons; charts show the latest 60 observations. No history is fabricated. LP across divisions is not MMR. Club position is recorded only when the whole roster fetch succeeds.
+- Admin rights use `soloq_admins` and auth.uid(), never editable user metadata. Sessions use HttpOnly, Secure production, SameSite=Lax cookies with refresh support; mutations validate Origin.
+- Checks: `node --test tests/*.test.mjs` (Node 24), `pnpm exec tsc --noEmit`, `pnpm build`.

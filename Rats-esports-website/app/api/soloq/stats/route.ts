@@ -2,8 +2,9 @@ import { unstable_cache } from 'next/cache';
 import { errorResponse, players } from '../../../../lib/soloq-server';
 import type { Rank, Standing } from '../../../../lib/soloq';
 import { parseOpgg } from '../../../../lib/opgg-parser';
+import { attachHistory } from '../../../../lib/soloq-history-server';
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 type League = Rank & { queueType: string };
 class RiotError extends Error { constructor(public status: number) { super('Riot unavailable'); } }
 async function riot(path: string, platform: string, revalidate: number) {
@@ -26,7 +27,7 @@ const opggRanking = unstable_cache(async (name: string, tag: string) => {
   if (!response.ok) throw new RiotError(response.status);
   const parsed = parseOpgg(await response.json(), name, tag);
   return { ...parsed, updatedAt: new Date().toISOString() };
-}, ['soloq-opgg-v1'], { revalidate: 900 });
+}, ['soloq-opgg-v2'], { revalidate: 900 });
 
 export async function GET() {
   try {
@@ -49,6 +50,7 @@ export async function GET() {
         if (i + 2 < roster.length && !blocked) await new Promise(resolve => setTimeout(resolve, 1100));
       }
     }
-    return Response.json({ players: result, configured: true, source }, { headers: { 'Cache-Control': 'no-store' } });
+    const history = await attachHistory(result, source);
+    return Response.json({ ...history, configured: true, source }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) { return errorResponse(error); }
 }
